@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import {setShowUserMenu} from '../store/store';
+import {Link} from 'react-router-dom';
 
 function Header() {
 
@@ -13,8 +14,13 @@ function Header() {
         <HeaderContainer>
           <img src="img/tikkle_logo.png" style={{width: '87px', height: '32px'}}/>
           <MenuContainer>
-            <div>홈</div>
-            <div>서비스</div>
+            
+            <Link to='/'>
+              <div style={{color: 'black'}}>홈</div>
+            </Link>
+            <Link to='/service_list'>
+              <div style={{color: 'black'}}>서비스</div>
+            </Link>
           </MenuContainer>
           <img src='img/user_icon.png' style={{width: '33px', height: '33px'}} onClick={()=>{
             dispatch(setShowUserMenu())

@@ -8,7 +8,7 @@ function Landing() {
   let reduxStore = useSelector((state)=>{return state})
 
   return (
-    <div style={{overflowX: 'hidden'}}>
+    <div>
       
       <Header/>
       {
