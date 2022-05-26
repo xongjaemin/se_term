@@ -1,11 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Header from '../../components/Header'
 import styled, {keyframes} from 'styled-components'
+import { useSelector } from 'react-redux'
+import UserMenu from '../../components/UserMenu'
 
 function Landing() {
+  let reduxStore = useSelector((state)=>{return state})
+
   return (
     <div style={{overflowX: 'hidden'}}>
+      
       <Header/>
+      {
+          reduxStore.showUserMenu
+          ? (
+            <UserMenuFadeIn>
+              <UserMenu/>
+            </UserMenuFadeIn>
+          )
+          : null
+        }
       <LandingContainer>
         <MoneyImage src="img/money_3d.png" />
         
@@ -22,7 +36,11 @@ function Landing() {
           </div>
           <ServiceBtn>서비스 바로가기</ServiceBtn>
         </LandingTexts>
+
+        
+
       </LandingContainer>
+      
     </div>
   )
 }
@@ -37,6 +55,18 @@ const FadeInUp = keyframes`
     transform: translateZ(0);
   }
 `;
+
+const FadeInFromRight = keyframes`
+  0%{
+    opacity: 0;
+    transform: translate3d(100%,0,0);
+  }
+  to{
+    opacity: 1;
+    transform: translateZ(0);
+  }
+`;
+
 
 let LandingContainer = styled.div`
   width: 100vw;
@@ -75,5 +105,11 @@ let ServiceBtn = styled.div`
   font-size: 24px;
   margin-top: 31px;
 `;
+
+
+let UserMenuFadeIn = styled.div`
+  animation: ${FadeInFromRight} 0.8s;
+`;
+
 
 export default Landing

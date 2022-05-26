@@ -19,6 +19,7 @@
     "iconv-lite": "^0.6.3",
     "jschardet": "^3.0.0",
     "nodemon": "^2.0.16",
+    "request": "^2.88.2",
     "styled-components": "^5.3.5"
   }
 }

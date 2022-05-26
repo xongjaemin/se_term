@@ -1,7 +1,13 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
+import {setShowUserMenu} from '../store/store';
 
 function Header() {
+
+  let reduxStore = useSelector((state)=>{return state})
+  let dispatch = useDispatch()
+
   return (
     <div style={{width: '100vw', height:'80px', position: 'fixed', background: 'white', overflowX:'hidden'}}>
         <HeaderContainer>
@@ -10,7 +16,9 @@ function Header() {
             <div>홈</div>
             <div>서비스</div>
           </MenuContainer>
-          <img src='img/hamburger_icon.png' style={{width: '33px', height: '33px'}}/>
+          <img src='img/user_icon.png' style={{width: '33px', height: '33px'}} onClick={()=>{
+            dispatch(setShowUserMenu())
+          }}/>
         </HeaderContainer>
     </div>
   )
