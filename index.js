@@ -2,10 +2,10 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const iconv = require("iconv-lite");
 //add module 'request'
-const request = require("request");
-
 const DomParser = require('dom-parser');
-const parser = new DomParser();
+
+const express = require('express');
+const router = express.Router();
 
 const firstUrl = "https://www.ppomppu.co.kr/zboard/zboard.php?id=coupon"
 
@@ -61,10 +61,10 @@ const hrefParsing = async(title, href) => {
 
     linkJson.push({title: title, links: linkList});
 
-    console.log(linkJson);
+    //console.log(linkJson);
 }
 
-const parsing = async () => {
+const init = async () => {
     let html = await getHtml();
 
     let $ = cheerio.load(iconv.decode(html.data, 'EUC-KR'));
@@ -107,9 +107,12 @@ const parsing = async () => {
 
         }
     })
-
-    console.log(articles);
-    console.log(hrefs);
 }
 
-parsing();
+init();
+
+router.get('/links', (req, res)=>{
+    res.send(linkJson);
+});
+
+module.exports = router;

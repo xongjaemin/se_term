@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios';
 import Header from '../../components/Header'
 import styled, {keyframes} from 'styled-components'
 import { useSelector } from 'react-redux'
@@ -7,6 +8,19 @@ import {Link} from 'react-router-dom'
 
 function ServiceList() {
 
+  const [hrefList, setHrefList] = useState([])
+
+  const sendRequest = async() => {
+    const response = await axios.get('http://localhost:8080/links');
+    setHrefList(response.data);
+
+  }
+
+  useEffect(()=>{
+    sendRequest();
+  })
+
+  /*
     const [hrefList, setHrefList] = useState([
         {"date": "2022/05/26", "links": [
             {"title": "[네이버포인트]나이키 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
@@ -24,7 +38,7 @@ function ServiceList() {
             {"title": "[네이버포인트]텀프 그만", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"}
         ]}
     ])
-
+*/
     let reduxStore = useSelector((state)=>{return state})
     
   return (
@@ -49,12 +63,12 @@ function ServiceList() {
             {
                 hrefList.map((list, index) => (
                     <div>
-                        <div style={{marginLeft: '15px', fontWeight: '600', color:'#1CC45E', fontSize: '24px'}}>{list.date}</div>
+                        <div style={{marginLeft: '15px', fontWeight: '600', color:'#1CC45E', fontSize: '24px', marginBottom:'10px'}}>{list.title}</div>
                         <LinkBox>
                             {
                                 list.links.map((linkList, idx)=>(
                                     <div>
-                                        <a href={linkList.link} target="_blank" style={{color: 'black'}}>{linkList.title}</a>
+                                        <a href={linkList} target="_blank" style={{color: 'black'}}>{linkList}</a>
                                     </div>
                                 ))
                             }
