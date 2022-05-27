@@ -20,7 +20,7 @@ function Landing() {
           )
           : null
         }
-      <LandingContainer>
+      <LandingContainer style={{overflowY: 'hidden'}}>
         <MoneyImage src="img/money_3d.png" />
         
         <LandingTexts>
@@ -70,7 +70,7 @@ const FadeInFromRight = keyframes`
 
 let LandingContainer = styled.div`
   width: 100vw;
-  height: 840px;
+  height: 800px;
   padding-top: 100px;
   background: #FAFAFA;
   display: flex;
