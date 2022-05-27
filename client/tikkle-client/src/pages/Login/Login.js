@@ -1,10 +1,36 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
 function Login() {
     
     const [ID, setID] = useState("")
     const [PW, setPW] = useState("")
+
+const loginOnclickListener = async() => {
+    //console.log("test");
+    console.log(ID);
+    console.log(PW);
+    /*
+    const response = await axios.post('http://localhost:8080/login',{
+        id: ID,
+        pw: PW
+    }).then(function (response){
+        console.log(response.data);
+    }).catch(function (error){
+        console.log(error);
+    });*/
+    const response = await axios({
+        method: 'post',
+        url: 'http://localhost:8080/login',
+        data: {
+          id: ID,
+          pw: PW
+        }
+      });
+
+    console.log(response.data);
+}
 
   return (
     <LoginContainer>
@@ -14,7 +40,7 @@ function Login() {
             <br/>
             <LoginInput style={{marginTop: '38px'}} placeholder='PW' type="password" onChange={e=>{setPW(e.target.value)}}/>
         </div>
-        <LoginBtn style={{marginTop: '98px'}}>로그인</LoginBtn>
+        <LoginBtn style={{marginTop: '98px'}} onClick={loginOnclickListener}>로그인</LoginBtn>
     </LoginContainer>
   )
 }
