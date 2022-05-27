@@ -9,7 +9,6 @@ const parser = new DomParser();
 
 const firstUrl = "https://www.ppomppu.co.kr/zboard/zboard.php?id=coupon"
 
-let linkList = [];
 let linkJson = [];
 
 const getHtml = async () => {
@@ -37,7 +36,7 @@ const getContent = async (link) => {
 };
 
 const hrefParsing = async(title, href) => {
-
+    let linkList = [];
     let hrefBody = await getContent(href);
     let $ = cheerio.load(iconv.decode(hrefBody.data, 'EUC-KR'));
 
@@ -78,7 +77,6 @@ const parsing = async () => {
     $articleList.each((idx, node) => {
         const title = $(node).find('.list_title').text().toString();
         if (title.includes('네이버페이')) {
-            linkList = [];
             articles.push(title);
 
             let href = $(node).find('.list_vspace a').toString();
