@@ -4,9 +4,15 @@ import Header from '../../components/Header'
 import styled, {keyframes} from 'styled-components'
 import { useSelector } from 'react-redux'
 import UserMenu from '../../components/UserMenu'
+import {Link} from 'react-router-dom'
 
 function Landing() {
   let reduxStore = useSelector((state)=>{return state})
+
+  useEffect(() => {
+    console.log(reduxStore.isLoggedIn)
+  })
+  
 
   return (
     <div>
@@ -35,7 +41,9 @@ function Landing() {
           <div style={{fontStyle: 'normal', fontWeight: '400', fontSize: '24px', color: '#1CC45E'}}>
             티끌 플러스
           </div>
-          <ServiceBtn>서비스 바로가기</ServiceBtn>
+          <Link to={reduxStore.isLoggedIn ? '/service_list' : '/login'}>
+            <ServiceBtn>서비스 바로가기</ServiceBtn>
+          </Link>
         </LandingTexts>
 
         

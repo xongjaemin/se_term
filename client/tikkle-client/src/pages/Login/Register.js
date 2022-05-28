@@ -1,12 +1,44 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
+import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 
 function Register() {
+
+    const navigate = useNavigate()
 
     const [ID, setID] = useState("")
     const [PW, setPW] = useState("")
     const [confirmPW, setConfirmPW] = useState("")
     const [nickname, setNickname] = useState("")
+    const [checkPW, setCheckPW] = useState(true)
+
+    const registerOnClickListener = async() => {
+
+        
+        const response = await axios({
+            method: 'post',
+            url: 'http://localhost:8080/register',
+            data:{
+                id: ID,
+                pw: PW,
+                name: nickname
+            }
+        });
+
+        if(response.data.success === 1){
+            navigate("/")
+        }else{
+            alert("회원가입 실패")
+        }
+    }
+
+    useEffect(() => {
+      PW === confirmPW
+      ? setCheckPW(true)
+      : setCheckPW(false)
+    }, [PW, confirmPW])
+    
 
   return (
     <RegisterContainer>
@@ -20,7 +52,14 @@ function Register() {
             <br/>
             <LoginInput style={{marginTop: '38px'}} placeholder='닉네임' onChange={e=>{setNickname(e.target.value)}}/>
         </div>
-        <LoginBtn style={{marginTop: '98px'}}>회원가입</LoginBtn>
+        {
+            checkPW === true
+            ? null
+            :(<div style={{color: 'red', fontSize: '24px'}}>
+            비밀번호가 일치하지 않습니다
+        </div>)
+        }
+        <LoginBtn style={{marginTop: '98px'}} onClick={registerOnClickListener}>회원가입</LoginBtn>
     </RegisterContainer>
   )
 }

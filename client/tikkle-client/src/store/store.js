@@ -10,11 +10,35 @@ let showUserMenu = createSlice({
     }
 })
 
+let isLoggedIn = createSlice({
+    name: 'isLoggedIn',
+    initialState: false,
+    reducers : {
+        setIsLoggedIn(state){
+            return !state
+        }
+    }
+})
+
+let userName = createSlice({
+    name: 'userName',
+    initialState : "",
+    reducers : {
+        setUserName(state, action){
+            return action.payload.name
+        }
+    }
+})
+
 export let {setShowUserMenu} = showUserMenu.actions
+export let {setIsLoggedIn} = isLoggedIn.actions
+export let {setUserName} = userName.actions
 
 const store = configureStore({
     reducer:{
-        showUserMenu : showUserMenu.reducer
+        showUserMenu : showUserMenu.reducer,
+        isLoggedIn : isLoggedIn.reducer,
+        userName : userName.reducer
     }
 })
 

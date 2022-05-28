@@ -20,25 +20,6 @@ function ServiceList() {
     sendRequest();
   })
 
-  /*
-    const [hrefList, setHrefList] = useState([
-        {"date": "2022/05/26", "links": [
-            {"title": "[네이버포인트]나이키 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]EBS 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]테스트테스트", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]텀프 그만", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"}
-        ]},
-        {"date": "2022/05/25", "links": [
-            {"title": "[네이버포인트]나이키 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]EBS 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-        ]},
-        {"date": "2022/05/24", "links": [
-            {"title": "[네이버포인트]EBS 어쩌구저쩌구", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]테스트테스트", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"},
-            {"title": "[네이버포인트]텀프 그만", "link" : "https://ofw.adison.co/u/naverpay/ads/89601"}
-        ]}
-    ])
-*/
     let reduxStore = useSelector((state)=>{return state})
     
   return (
