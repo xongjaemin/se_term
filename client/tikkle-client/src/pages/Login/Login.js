@@ -1,25 +1,27 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { setIsLoggedIn, setUserName } from '../../store/store'
 
 function Login() {
+
+    let reduxStore = useSelector((state)=>{return state})
+    let dispatch = useDispatch()
     
+    const navigate = useNavigate();
+
     const [ID, setID] = useState("")
     const [PW, setPW] = useState("")
 
-const loginOnclickListener = async() => {
+    const [wrongPW, setWrongPW] = useState(false)
+
+    const loginOnclickListener = async() => {
     //console.log("test");
-    console.log(ID);
-    console.log(PW);
-    /*
-    const response = await axios.post('http://localhost:8080/login',{
-        id: ID,
-        pw: PW
-    }).then(function (response){
-        console.log(response.data);
-    }).catch(function (error){
-        console.log(error);
-    });*/
+    //console.log(ID);
+    //console.log(PW);
+
     const response = await axios({
         method: 'post',
         url: 'http://localhost:8080/login',
@@ -29,7 +31,16 @@ const loginOnclickListener = async() => {
         }
       });
 
-    console.log(response.data);
+    //console.log(response.data);
+
+    if(response.data.success === 1){
+        setWrongPW(false)
+        dispatch(setIsLoggedIn())
+        dispatch(setUserName({name: response.data.userName}))
+        navigate("/")
+    } else{
+        setWrongPW(true)
+    }
 }
 
   return (
@@ -40,6 +51,13 @@ const loginOnclickListener = async() => {
             <br/>
             <LoginInput style={{marginTop: '38px'}} placeholder='PW' type="password" onChange={e=>{setPW(e.target.value)}}/>
         </div>
+        {
+            wrongPW === true
+            ?(<div style={{color: 'red', fontSize: '24px'}}>
+                ID/비밀번호를 확인해주세요
+            </div>)
+            :null
+        }
         <LoginBtn style={{marginTop: '98px'}} onClick={loginOnclickListener}>로그인</LoginBtn>
     </LoginContainer>
   )

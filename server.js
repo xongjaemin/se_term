@@ -34,16 +34,10 @@ app.use(session({
     store : new FileStore() // 세션이 데이터를 저장하는 곳
 }));
 
-
 app.use('/', index);
 
 app.use(express.json());
 
-/*
-app.get('/login',(req,res)=>{
-    res.send({message: "test"})
-});
-*/
 
 //회원가입 post
 app.post('/register',(req,res)=>{
@@ -56,13 +50,13 @@ app.post('/register',(req,res)=>{
     client.query('select * from users where id=?',[id],(err,data)=>{
         if(data.length == 0){
             console.log('회원가입 성공');
-            client.query('insert into users(id, name, pw) values(?,?,?,?)',[
+            client.query('insert into users(id, name, pw) values(?,?,?)',[
                 id, name, pw
             ]);
-            res.redirect('/');
+            res.send({success: 1})
         }else{
             console.log('회원가입 실패');
-            res.redirect('/');
+            res.send({success: 0})
         }
     });
 });
@@ -91,7 +85,7 @@ app.post('/login',(req,res)=>{
         
         if(id == data[0].id && pw == data[0].pw){
             console.log('로그인 성공');
-            res.send({success: 1});
+            res.send({success: 1, userName: data[0].name});
         }else{
             console.log('로그인 실패');
             res.send({success: 0});

@@ -5,7 +5,6 @@ import {setShowUserMenu} from '../store/store';
 import {Link} from 'react-router-dom';
 
 function Header() {
-
   let reduxStore = useSelector((state)=>{return state})
   let dispatch = useDispatch()
 
@@ -18,7 +17,7 @@ function Header() {
             <Link to='/'>
               <div style={{color: 'black'}}>홈</div>
             </Link>
-            <Link to='/service_list'>
+            <Link to= {reduxStore.isLoggedIn ? '/service_list' : '/login'}>
               <div style={{color: 'black'}}>서비스</div>
             </Link>
           </MenuContainer>
