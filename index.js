@@ -3,15 +3,16 @@ const cheerio = require("cheerio");
 const iconv = require("iconv-lite");
 const DomParser = require('dom-parser');
 
-const express = require('express');
+const express = require('express'); // module to connect server
 const router = express.Router();
 
-const firstUrl = "https://www.ppomppu.co.kr/zboard/zboard.php?id=coupon" //뽐뿌 게시판
-const secondUrl = "https://www.fmkorea.com/freedeal" //펨코 게시판
+const firstUrl = "https://www.ppomppu.co.kr/zboard/zboard.php?id=coupon" //site url that have link about naver point
+const secondUrl = "https://www.fmkorea.com/freedeal" //site url that have link about naver point
 
 let linkJson = [];
 
-const getHtml = async (targetUrl) => {
+// get html url function to use site number 1
+const getHtml = async (targetUrl) => { 
     try {
         return await axios({
             url: targetUrl,
@@ -23,6 +24,7 @@ const getHtml = async (targetUrl) => {
     }
 };
 
+// get html url function to use site number 2
 const getHtml2 = async (targetUrl) => {
     try{
         return await axios.get(targetUrl);
@@ -31,6 +33,7 @@ const getHtml2 = async (targetUrl) => {
     }
 }
 
+// get content function to use site number 1
 const getContent = async (link) => {
     try {
         return await axios({
@@ -43,6 +46,7 @@ const getContent = async (link) => {
     }
 };
 
+// get content function to use site number 2
 const getContent2 = async (link) => {
     try{
         return await axios.get(link);
@@ -51,6 +55,7 @@ const getContent2 = async (link) => {
     }
 }
 
+// push link function
 const hrefParsing = async(title, href) => {
     let linkList = [];
     let hrefBody = await getContent(href);
@@ -78,6 +83,7 @@ const hrefParsing = async(title, href) => {
     console.log(linkJson);
 }
 
+// push link function
 const hrefParsing2 = async(title, href) => {
     let linkList = [];
     let hrefBody = await getContent2(href);
@@ -104,7 +110,7 @@ const hrefParsing2 = async(title, href) => {
     linkJson.push({title: title, links: linkList});
 }
 
-const init2 = async() =>{
+const init2 = async() =>{ // Crawl data from site number 2
     let html = await getHtml2(secondUrl);
 
     let $ = cheerio.load(html.data);
@@ -113,7 +119,7 @@ const init2 = async() =>{
 
     $articleList3.each((idx, node)=>{
         const title = $(node).find('a').text().toString();
-        if (title.includes('네이버페이')){
+        if (title.includes('네이버페이')){ // search tag about 네이버페이
             //console.log(title);
             title_substr = title.substring(4);
             title_substr = title_substr.slice(0,-4);
@@ -128,8 +134,7 @@ const init2 = async() =>{
     })
 }
 
-const init = async () => {
-    //뽐뿌 게시판 크롤링
+const init = async () => { // Crawl data from site number 1
     let html = await getHtml(firstUrl);
 
     let $ = cheerio.load(iconv.decode(html.data, 'EUC-KR'));
@@ -144,7 +149,7 @@ const init = async () => {
 
     $articleList.each((idx, node) => {
         const title = $(node).find('.list_title').text().toString();
-        if (title.includes('네이버페이')) {
+        if (title.includes('네이버페이')) { // serach tag about 네이버페이
             articles.push(title);
             let href = $(node).find('.list_vspace a').toString();
             href = href.substring(href.indexOf('</a>') + 4,);
