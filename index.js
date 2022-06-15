@@ -63,7 +63,7 @@ const hrefParsing = async(title, href) => {
     let boardContent = $(".board-contents a").text().toString();
     
     boardContent = boardContent.substring(boardContent.indexOf('http'));
-    //console.log(boardContent);
+
     while(boardContent.indexOf('http') != -1){
         temp = boardContent.substring(5);
 
@@ -120,7 +120,7 @@ const init2 = async() =>{ // Crawl data from site number 2
     $articleList3.each((idx, node)=>{
         const title = $(node).find('a').text().toString();
         if (title.includes('네이버페이')){ // search tag about 네이버페이
-            //console.log(title);
+
             title_substr = title.substring(4);
             title_substr = title_substr.slice(0,-4);
 
@@ -138,11 +138,8 @@ const init = async () => { // Crawl data from site number 1
     let html = await getHtml(firstUrl);
 
     let $ = cheerio.load(iconv.decode(html.data, 'EUC-KR'));
-    //console.log($);
     const $articleList = $(".list0");
     const $articleList2 = $(".list1");
-
-    //console.log($articleList);
     
     let articles = [];
     let hrefs = [];

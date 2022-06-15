@@ -5,6 +5,8 @@ import {useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsLoggedIn, setUserName } from '../../store/store'
 
+//login page
+
 function Login() {
 
     let reduxStore = useSelector((state)=>{return state})
@@ -17,10 +19,8 @@ function Login() {
 
     const [wrongPW, setWrongPW] = useState(false)
 
+    //when login btn is clicked
     const loginOnclickListener = async() => {
-    //console.log("test");
-    //console.log(ID);
-    //console.log(PW);
 
     const response = await axios({
         method: 'post',
@@ -30,8 +30,6 @@ function Login() {
           pw: PW
         }
       });
-
-    //console.log(response.data);
 
     if(response.data.success === 1){
         setWrongPW(false)

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {setIsLoggedIn, setShowUserMenu, setUserName} from '../store/store';
 import {Link, useNavigate} from 'react-router-dom';
 
+//user menu component
 function UserMenu() {
 
 let reduxStore = useSelector((state)=>{return state})

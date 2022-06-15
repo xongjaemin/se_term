@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
+//register page
+
 function Register() {
 
     const navigate = useNavigate()
@@ -26,9 +28,9 @@ function Register() {
             }
         });
 
-        if(response.data.success === 1){
+        if(response.data.success === 1){ //if login is succeeded, go ti main page
             navigate("/")
-        }else{
+        }else{ //if login is failed
             alert("회원가입 실패")
         }
     }

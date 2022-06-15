@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {setShowUserMenu} from '../store/store';
 import {Link} from 'react-router-dom';
 
+//header menu component
 function Header() {
   let reduxStore = useSelector((state)=>{return state})
   let dispatch = useDispatch()
