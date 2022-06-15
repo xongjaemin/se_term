@@ -55,14 +55,12 @@ const hrefParsing = async(title, href) => {
     let linkList = [];
     let hrefBody = await getContent(href);
     let $ = cheerio.load(iconv.decode(hrefBody.data, 'EUC-KR'));
-
     let boardContent = $(".board-contents a").text().toString();
-
-    boardContent = boardContent.substring(boardContent.indexOf('http'));
     
-
+    boardContent = boardContent.substring(boardContent.indexOf('http'));
+    //console.log(boardContent);
     while(boardContent.indexOf('http') != -1){
-        temp = boardContent.substring(5); //'https' 빼줌
+        temp = boardContent.substring(5);
 
         if(temp.indexOf('http') != -1){
             linkList.push('https' + temp.substring(0, temp.indexOf('http')));
@@ -77,19 +75,19 @@ const hrefParsing = async(title, href) => {
 
     linkJson.push({title: title, links: linkList});
 
-    //console.log(linkJson);
+    console.log(linkJson);
 }
 
 const hrefParsing2 = async(title, href) => {
     let linkList = [];
     let hrefBody = await getContent2(href);
 
-    let $ = cheerio.load(hrefBody.data);
+    let $ = cheerio.load(hrefBody.data)
 
-    let boardContent = $("article a").text().toString();
+    let boardContent = $("article a").text();
 
-    //console.log(boardContent);
-
+    console.log(boardContent);
+    
     while(boardContent.indexOf('http') != -1){
         temp = boardContent.substring(5);
 
@@ -116,7 +114,7 @@ const init2 = async() =>{
     $articleList3.each((idx, node)=>{
         const title = $(node).find('a').text().toString();
         if (title.includes('네이버페이')){
-
+            //console.log(title);
             title_substr = title.substring(4);
             title_substr = title_substr.slice(0,-4);
 
@@ -148,13 +146,11 @@ const init = async () => {
         const title = $(node).find('.list_title').text().toString();
         if (title.includes('네이버페이')) {
             articles.push(title);
-
             let href = $(node).find('.list_vspace a').toString();
             href = href.substring(href.indexOf('</a>') + 4,);
             href = "www.ppomppu.co.kr/zboard/" + href.substring(9, href.indexOf('>') - 1).replaceAll("&amp;", "&");
             hrefs.push(href);
             
-            //console.log(href);
 
             href = "https://" + href;
 
@@ -165,13 +161,11 @@ const init = async () => {
         const title = $(node).find('.list_title').text().toString();
         if (title.includes('네이버페이')) {
             articles.push(title);
-
             let href = $(node).find('.list_vspace a').toString();
             href = href.substring(href.indexOf('</a>') + 4,);
             href = "www.ppomppu.co.kr/zboard/" + href.substring(9, href.indexOf('>') - 1).replaceAll("&amp;", "&");
 
             hrefs.push(href);
-
             href = "https://" + href;
 
             hrefParsing(title, href);
