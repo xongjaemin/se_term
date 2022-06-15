@@ -1,17 +1,17 @@
 const fs = require('fs');
-const mysql = require('mysql2');
+const mysql = require('mysql2'); // module to use mysql DB
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
-const crypto = require('crypto');
+const crypto = require('crypto'); // module to use encrypt
 const cors = require('cors');
-const FileStore = require('session-file-store')(session); // 세션을 파일에 저장
+const FileStore = require('session-file-store')(session); // save session
 const cookieParser = require('cookie-parser');
 
-const app = express();
+const app = express(); // module that used to open server
 
-const client = mysql.createConnection({
+const client = mysql.createConnection({ // DB information
     host : 'localhost',
     port : '3306',
     user : 'root',
@@ -28,10 +28,10 @@ app.use(express.static(path.join(__dirname,'/public')));
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(session({
-    secret: 'blackzat', // 데이터를 암호화 하기 위해 필요한 옵션
-    resave: false, // 요청이 왔을때 세션을 수정하지 않더라도 다시 저장소에 저장되도록
-    saveUninitialized: true, // 세션이 필요하면 세션을 실행시칸다(서버에 부담을 줄이기 위해)
-    store : new FileStore() // 세션이 데이터를 저장하는 곳
+    secret: 'blackzat', // data encrypt
+    resave: false, // if requeset resave without session
+    saveUninitialized: true, // reduce server burden
+    store : new FileStore() // place where store data
 }));
 
 app.use('/', index);
@@ -39,7 +39,7 @@ app.use('/', index);
 app.use(express.json());
 
 
-//회원가입 post
+//sign up post
 app.post('/register',(req,res)=>{
     console.log('회원가입 하는중')
     const body = req.body;
@@ -47,8 +47,8 @@ app.post('/register',(req,res)=>{
     const pw = body.pw;
     const name = body.name;
 
-    client.query('select * from users where id=?',[id],(err,data)=>{
-        if(data.length == 0){
+    client.query('select * from users where id=?',[id],(err,data)=>{ // add information in mysql DB
+        if(data.length == 0){ // check ID diplication
             console.log('회원가입 성공');
             client.query('insert into users(id, name, pw) values(?,?,?)',[
                 id, name, pw
@@ -62,7 +62,7 @@ app.post('/register',(req,res)=>{
 });
 
 
-//로그인 post
+//login post
 app.post('/login',(req,res)=>{
     console.log(req);
     const body = req.body;
@@ -70,8 +70,8 @@ app.post('/login',(req,res)=>{
     const id = body.id;
     const pw = body.pw;
     
-    client.query('select * from users where id=?',[id],(err,data)=>{
-        // 로그인 확인
+    client.query('select * from users where id=?',[id],(err,data)=>{ // check ID from DB
+        // login check 
         if(data[0]==null){
             data[0]='default';
         }
@@ -83,17 +83,17 @@ app.post('/login',(req,res)=>{
         console.log(id == data[0].id);
         console.log(pw == data[0].pw);
         
-        if(id == data[0].id && pw == data[0].pw){
+        if(id == data[0].id && pw == data[0].pw){ // login success
             console.log('로그인 성공');
             res.send({success: 1, userName: data[0].name});
         }else{
-            console.log('로그인 실패');
+            console.log('로그인 실패');// login failed
             res.send({success: 0});
         }
     });
     
 });
 
-server.listen(8080, () => {
+server.listen(8080, () => { // open local server port 8080
     console.log('server is running on 8080');
 })
