@@ -4,7 +4,8 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 
-  
+//storing user information
+
 let showUserMenu = createSlice({
     name : 'showUserMenu',
     initialState : false,

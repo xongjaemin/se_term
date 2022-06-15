@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import UserMenu from '../../components/UserMenu'
 import {Link} from 'react-router-dom'
 
+//landing page
+
 function Landing() {
   let reduxStore = useSelector((state)=>{return state})
 
